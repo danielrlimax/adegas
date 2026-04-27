@@ -28,7 +28,6 @@ export class AppView {
         this.trocoGroup = document.getElementById('troco-group');
         this.trocoInput = document.getElementById('troco');
 
-        // Elementos exclusivos do Mobile
         this.checkoutSection = document.getElementById('checkout-section');
         this.btnVerCarrinho = document.getElementById('btn-ver-carrinho');
         this.btnFecharCarrinho = document.getElementById('btn-fechar-carrinho');
@@ -54,7 +53,6 @@ export class AppView {
             this.orderManager.setTroco(e.target.value);
         });
 
-        // Eventos dos botões Mobile - TRAVANDO O SCROLL AQUI
         this.btnVerCarrinho.addEventListener('click', () => {
             this.checkoutSection.classList.add('active');
             document.body.classList.add('no-scroll');
@@ -99,9 +97,26 @@ export class AppView {
 
     updateCartUI() {
         this.cartItemsEl.innerHTML = '';
+        
         this.orderManager.cart.items.forEach(item => {
             const li = document.createElement('li');
-            li.innerHTML = `<span>${item.quantity}x ${item.product.name}</span> <span>${this.formatter.format(item.product.price * item.quantity)}</span>`;
+            
+            // Adicionado o botão .btn-remove com o data-id do produto
+            li.innerHTML = `
+                <div class="cart-item-info">
+                    <button class="btn-remove" data-id="${item.product.id}">-</button>
+                    <span>${item.quantity}x ${item.product.name}</span>
+                </div>
+                <span>${this.formatter.format(item.product.price * item.quantity)}</span>
+            `;
+            
+            // Captura o clique no botão de diminuir
+            li.querySelector('.btn-remove').addEventListener('click', (e) => {
+                const productId = e.target.getAttribute('data-id');
+                this.orderManager.cart.removeItem(productId);
+                this.updateCartUI(); // Atualiza a tela depois de remover
+            });
+
             this.cartItemsEl.appendChild(li);
         });
 
@@ -155,8 +170,14 @@ export class AppView {
         this.freteEl.textContent = this.formatter.format(this.orderManager.deliveryFee);
         this.totalEl.textContent = this.formatter.format(this.orderManager.getTotal());
 
-        // Atualiza dinamicamente o valor do botão flutuante no celular
         this.mobileCartTotal.textContent = subtotalStr;
+        
+        // Se o carrinho esvaziar, o frete também pode ser zerado ou pelo menos o total deve fechar correto
+        if (this.orderManager.cart.isEmpty() && this.checkoutSection.classList.contains('active')) {
+            // Opcional: Fecha o modal mobile automaticamente se o carrinho ficar vazio
+            // this.checkoutSection.classList.remove('active');
+            // document.body.classList.remove('no-scroll');
+        }
     }
 
     checkCheckoutState() {
