@@ -22,6 +22,11 @@ body {
     padding-bottom: 90px; 
 }
 
+/* Trava o scroll da página quando o carrinho estiver aberto no mobile */
+body.no-scroll {
+    overflow: hidden;
+}
+
 .container { 
     max-width: 1200px; 
     margin: 0 auto; 
@@ -143,7 +148,7 @@ body {
    CARRINHO E CHECKOUT (COMPORTAMENTO MOBILE)
    ========================================= */
 .checkout-section {
-    display: none; /* No mobile, escondemos por padrão */
+    display: none; 
     background: var(--white);
     padding: 20px;
     border-radius: 8px;
@@ -151,7 +156,6 @@ body {
     min-width: 0;
 }
 
-/* Classe ativada via JS para o modal do mobile */
 .checkout-section.active {
     display: block;
     position: fixed;
@@ -352,7 +356,10 @@ select {
    MEDIA QUERIES (Desktop)
    ========================================= */
 @media (min-width: 768px) {
-    body { padding-bottom: 15px; } /* Remove espaço extra da barra mobile */
+    body { padding-bottom: 15px; } 
+
+    /* Garante que no desktop o scroll do body sempre funcione caso a classe não seja removida direito */
+    body.no-scroll { overflow: auto; }
 
     .main-header { 
         flex-direction: row; 
@@ -375,7 +382,6 @@ select {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     }
 
-    /* Reseta comportamentos mobile e mantém fixo na tela */
     .checkout-section {
         display: block; 
         position: sticky;
@@ -389,7 +395,6 @@ select {
         border-radius: 8px;
     }
 
-    /* Oculta os botões que são exclusivos do celular */
     .mobile-cart-bar { display: none !important; }
     .btn-fechar-mobile { display: none !important; }
 }

@@ -54,13 +54,15 @@ export class AppView {
             this.orderManager.setTroco(e.target.value);
         });
 
-        // Eventos dos botões Mobile
+        // Eventos dos botões Mobile - TRAVANDO O SCROLL AQUI
         this.btnVerCarrinho.addEventListener('click', () => {
             this.checkoutSection.classList.add('active');
+            document.body.classList.add('no-scroll');
         });
 
         this.btnFecharCarrinho.addEventListener('click', () => {
             this.checkoutSection.classList.remove('active');
+            document.body.classList.remove('no-scroll');
         });
     }
 
