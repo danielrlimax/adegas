@@ -25,9 +25,14 @@ export class AppView {
         this.numeroInput = document.getElementById('numero');
         this.complementoInput = document.getElementById('complemento'); 
         
-        // Novos campos para o troco
         this.trocoGroup = document.getElementById('troco-group');
         this.trocoInput = document.getElementById('troco');
+
+        // Elementos exclusivos do Mobile
+        this.checkoutSection = document.getElementById('checkout-section');
+        this.btnVerCarrinho = document.getElementById('btn-ver-carrinho');
+        this.btnFecharCarrinho = document.getElementById('btn-fechar-carrinho');
+        this.mobileCartTotal = document.getElementById('mobile-cart-total');
     }
 
     bindEvents() {
@@ -45,9 +50,17 @@ export class AppView {
             this.orderManager.setComplemento(e.target.value);
         });
 
-        // Evento para atualizar o troco no model
         this.trocoInput.addEventListener('input', (e) => {
             this.orderManager.setTroco(e.target.value);
+        });
+
+        // Eventos dos botões Mobile
+        this.btnVerCarrinho.addEventListener('click', () => {
+            this.checkoutSection.classList.add('active');
+        });
+
+        this.btnFecharCarrinho.addEventListener('click', () => {
+            this.checkoutSection.classList.remove('active');
         });
     }
 
@@ -121,13 +134,12 @@ export class AppView {
         const method = e.target.value;
         this.orderManager.setPaymentMethod(method);
         
-        // Exibe o campo de troco apenas se for dinheiro
         if (method === 'dinheiro') {
             this.trocoGroup.classList.remove('hidden');
         } else {
             this.trocoGroup.classList.add('hidden');
-            this.orderManager.setTroco(''); // Limpa o dado no model
-            this.trocoInput.value = '';     // Limpa visualmente
+            this.orderManager.setTroco(''); 
+            this.trocoInput.value = '';     
         }
 
         this.updateFinancialsUI();
@@ -135,9 +147,14 @@ export class AppView {
     }
 
     updateFinancialsUI() {
-        this.subtotalEl.textContent = this.formatter.format(this.orderManager.cart.getSubtotal());
+        const subtotalStr = this.formatter.format(this.orderManager.cart.getSubtotal());
+        
+        this.subtotalEl.textContent = subtotalStr;
         this.freteEl.textContent = this.formatter.format(this.orderManager.deliveryFee);
         this.totalEl.textContent = this.formatter.format(this.orderManager.getTotal());
+
+        // Atualiza dinamicamente o valor do botão flutuante no celular
+        this.mobileCartTotal.textContent = subtotalStr;
     }
 
     checkCheckoutState() {

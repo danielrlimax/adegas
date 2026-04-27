@@ -14,10 +14,12 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
 }
 
+/* Espaço extra em baixo no mobile para não esconder conteúdo atrás da barra de carrinho */
 body { 
     background-color: var(--bg); 
     color: var(--text); 
     padding: 15px; 
+    padding-bottom: 90px; 
 }
 
 .container { 
@@ -75,13 +77,12 @@ body {
     gap: 20px; 
 }
 
-/* Garante que as seções não estourem a largura da coluna pai */
-.products-section, .checkout-section {
+.products-section {
     background: var(--white);
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    min-width: 0; /* Importante para o Grid */
+    min-width: 0;
 }
 
 .product-grid {
@@ -139,8 +140,30 @@ body {
 }
 
 /* =========================================
-   CARRINHO E CHECKOUT
+   CARRINHO E CHECKOUT (COMPORTAMENTO MOBILE)
    ========================================= */
+.checkout-section {
+    display: none; /* No mobile, escondemos por padrão */
+    background: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    min-width: 0;
+}
+
+/* Classe ativada via JS para o modal do mobile */
+.checkout-section.active {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    overflow-y: auto;
+    border-radius: 0;
+}
+
 .cart-list { 
     list-style: none; 
     margin-bottom: 20px; 
@@ -180,7 +203,7 @@ body {
     border: 1px solid var(--border); 
     border-radius: 4px; 
     font-size: 1rem; 
-    min-width: 0; /* Previne que o input empurre a largura */
+    min-width: 0; 
 }
 
 .cep-input-group button { 
@@ -234,6 +257,48 @@ select {
 }
 
 /* =========================================
+   BARRA E BOTÕES MOBILE
+   ========================================= */
+.mobile-cart-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: var(--white);
+    padding: 15px;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+    z-index: 999;
+}
+
+.btn-ver-carrinho {
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-fechar-mobile {
+    width: 100%;
+    padding: 12px;
+    background: #f0f0f0;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    display: block;
+}
+
+/* =========================================
    ENDEREÇO E UTILITÁRIOS
    ========================================= */
 .hidden { 
@@ -266,7 +331,6 @@ select {
     padding: 12px; 
     border-radius: 6px;
     border: 1px solid #e0b4bc;
-    /* CORREÇÃO: Impede que o texto empurre a largura da lateral */
     word-wrap: break-word;
     overflow-wrap: break-word;
     line-height: 1.4;
@@ -285,9 +349,11 @@ select {
 }
 
 /* =========================================
-   MEDIA QUERIES (Desktop) - CORRIGIDO
+   MEDIA QUERIES (Desktop)
    ========================================= */
 @media (min-width: 768px) {
+    body { padding-bottom: 15px; } /* Remove espaço extra da barra mobile */
+
     .main-header { 
         flex-direction: row; 
         justify-content: space-between; 
@@ -298,7 +364,6 @@ select {
     .brand { flex-direction: row; }
     .store-info { text-align: right; }
 
-    /* CORREÇÃO DO GRID: minmax(0, ...) trava a largura das frações */
     .grid-layout { 
         display: grid; 
         grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); 
@@ -310,9 +375,21 @@ select {
         grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
     }
 
-    /* Fixa o checkout no topo enquanto rola os produtos (opcional) */
+    /* Reseta comportamentos mobile e mantém fixo na tela */
     .checkout-section {
+        display: block; 
         position: sticky;
         top: 20px;
     }
+
+    .checkout-section.active {
+        position: sticky;
+        height: auto;
+        z-index: auto;
+        border-radius: 8px;
+    }
+
+    /* Oculta os botões que são exclusivos do celular */
+    .mobile-cart-bar { display: none !important; }
+    .btn-fechar-mobile { display: none !important; }
 }

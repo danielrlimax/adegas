@@ -25,7 +25,10 @@
                 <div id="product-list" class="product-grid"></div>
             </section>
 
-            <aside class="checkout-section">
+            <aside id="checkout-section" class="checkout-section">
+                
+                <button id="btn-fechar-carrinho" class="btn-fechar-mobile">← Voltar aos Produtos</button>
+
                 <h2>Seu Pedido</h2>
                 <ul id="cart-items" class="cart-list"></ul>
                 
@@ -76,6 +79,13 @@
                 </div>
             </aside>
         </main>
+    </div>
+
+    <div class="mobile-cart-bar">
+        <button id="btn-ver-carrinho" class="btn-ver-carrinho">
+            <span>🛒 Ver Carrinho</span>
+            <span id="mobile-cart-total">R$ 0,00</span>
+        </button>
     </div>
     
     <script type="module" src="./js/main.js"></script>
