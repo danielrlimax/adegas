@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adega Express - Entregas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div class="brand">
+                <img src="https://via.placeholder.com/80/800020/ffffff?text=AE" alt="Logo Adega Express" class="logo">
+                <h1>Adega Express</h1>
+            </div>
+            <div class="store-info">
+                <p><strong>Contato:</strong> (19) 99971-0330</p>
+                <p><strong>Funcionamento:</strong> Seg a Sáb: 10h às 23h | Dom: 10h às 18h</p>
+            </div>
+        </header>
+
+        <main class="grid-layout">
+            <section class="products-section">
+                <h2>Nossas Bebidas</h2>
+                <div id="product-list" class="product-grid"></div>
+            </section>
+
+            <aside class="checkout-section">
+                <h2>Seu Pedido</h2>
+                <ul id="cart-items" class="cart-list"></ul>
+                
+                <div class="summary">
+                    <p class="summary-line"><span>Subtotal:</span> <span id="subtotal-val">R$ 0,00</span></p>
+                    
+                    <div class="delivery-calc">
+                        <label for="cep">CEP de Entrega:</label>
+                        <div class="cep-input-group">
+                            <input type="text" id="cep" placeholder="00000-000" maxlength="9">
+                            <button id="btn-calc-frete">Buscar</button>
+                        </div>
+                        <p class="summary-line frete-text"><span>Frete:</span> <span id="frete-val">R$ 0,00</span></p>
+                        
+                        <div id="endereco-group" class="address-input-group hidden">
+                            <p id="endereco-resumo" class="endereco-resumo-text"></p>
+                            
+                            <div class="input-row">
+                                <div class="input-col" style="flex: 1;">
+                                    <label for="numero">Número:</label>
+                                    <input type="text" id="numero" placeholder="Ex: 123">
+                                </div>
+                                <div class="input-col" style="flex: 2;">
+                                    <label for="complemento">Complemento:</label>
+                                    <input type="text" id="complemento" placeholder="Apto, Casa 2...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-selection">
+                        <label for="pagamento">Forma de Pagamento:</label>
+                        <select id="pagamento">
+                            <option value="">Selecione...</option>
+                            <option value="pix">PIX (5% de desconto)</option>
+                            <option value="cartao">Cartão de Crédito</option>
+                            <option value="dinheiro">Dinheiro</option>
+                        </select>
+
+                        <div id="troco-group" class="input-col hidden" style="margin-top: 15px;">
+                            <label for="troco">Troco para quanto?</label>
+                            <input type="text" id="troco" placeholder="Ex: 100,00" style="padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 1rem;">
+                        </div>
+                    </div>
+
+                    <h3 class="summary-line total-line"><span>Total:</span> <span id="total-val">R$ 0,00</span></h3>
+                    <button id="btn-finalizar" class="btn-primary" disabled>Finalizar Pedido</button>
+                </div>
+            </aside>
+        </main>
+    </div>
+    
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>
